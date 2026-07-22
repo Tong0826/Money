@@ -1,83 +1,107 @@
-# Money
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimalist Vocabulary</title>
+    <title>Minimalist IELTS Flashcards</title>
     <style>
+        * { box-sizing: border-box; }
         body {
-            background-color: #f7f7f8;
+            background-color: #f4f4f6;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            color: #1a1a1a;
+            padding: 20px;
+            color: #1c1c1e;
+        }
+        .container { width: 100%; max-width: 380px; text-align: center; }
+        .header-title {
+            font-size: 13px; font-weight: 700; letter-spacing: 3px; color: #8e8e93;
+            text-transform: uppercase; margin-bottom: 20px;
         }
         .card {
-            background: #ffffff;
-            width: 320px;
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            text-align: center;
-            transition: transform 0.2s ease;
-        }
-        .card:hover {
-            transform: translateY(-4px);
+            background: #ffffff; border-radius: 24px; padding: 36px 28px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.03);
+            margin-bottom: 20px; min-height: 320px; display: flex; flex-direction: column; justify-content: center;
         }
         .tag {
-            font-size: 12px;
-            letter-spacing: 2px;
-            color: #8e8e93;
-            text-transform: uppercase;
-            margin-bottom: 20px;
+            display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+            color: #636366; background: #f2f2f7; padding: 4px 12px; border-radius: 20px; margin: 0 auto 20px auto;
         }
-        .word {
-            font-size: 36px;
-            font-weight: 700;
-            margin: 0 0 8px 0;
-            letter-spacing: -0.5px;
+        .word { font-size: 38px; font-weight: 800; margin: 0 0 6px 0; letter-spacing: -0.5px; }
+        .phonetic { font-size: 15px; color: #8e8e93; font-family: serif; margin-bottom: 20px; }
+        .divider { height: 1px; background: #e5e5ea; margin: 0 auto 20px auto; width: 40px; }
+        .definition { font-size: 19px; font-weight: 700; color: #1c1c1e; margin-bottom: 20px; }
+        .example-box { background: #fafafa; border-radius: 14px; padding: 16px; text-align: left; border-left: 3px solid #1c1c1e; }
+        .example-en { font-size: 14px; line-height: 1.4; color: #2c2c2e; margin-bottom: 6px; font-weight: 500; }
+        .example-zh { font-size: 12px; color: #8e8e93; }
+        
+        .btn-group { display: flex; gap: 12px; justify-content: center; }
+        .btn {
+            flex: 1; padding: 14px 20px; border-radius: 16px; font-size: 15px; font-weight: 600;
+            border: none; cursor: pointer; transition: all 0.2s;
         }
-        .phonetic {
-            font-size: 16px;
-            color: #8e8e93;
-            margin-bottom: 24px;
-        }
-        .definition {
-            font-size: 18px;
-            font-weight: 600;
-            color: #2c2c2e;
-            padding: 12px 0;
-            border-top: 1px solid #f0f0f2;
-            border-bottom: 1px solid #f0f0f2;
-            margin-bottom: 24px;
-        }
-        .example-en {
-            font-size: 14px;
-            line-height: 1.5;
-            color: #3a3a3c;
-            margin-bottom: 8px;
-            font-style: italic;
-        }
-        .example-zh {
-            font-size: 13px;
-            color: #8e8e93;
-        }
+        .btn-next { background: #1c1c1e; color: #ffffff; }
+        .btn-next:active { transform: scale(0.98); opacity: 0.9; }
+        .btn-pay { background: #e5e5ea; color: #1c1c1e; }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="tag">IELTS / 學測必考</div>
-        <div class="word" id="word">Abandon</div>
-        <div class="phonetic" id="phonetic">/əˈbæn.dən/</div>
-        <div class="definition" id="definition">放棄；拋棄</div>
-        <div class="example-en" id="example_en">"Never abandon your dreams, no matter how tough the journey gets."</div>
-        <div class="example-zh" id="example_zh">即使旅途再艱難，也絕不放棄你的夢想。</div>
+    <div class="container">
+        <div class="header-title">Minimalist Vocabulary v1.0</div>
+        
+        <div class="card">
+            <div class="tag" id="tag">IELTS 7.5 高頻詞</div>
+            <div class="word" id="word">Abandon</div>
+            <div class="phonetic" id="phonetic">/əˈbæn.dən/</div>
+            <div class="divider"></div>
+            <div class="definition" id="definition">放棄；拋棄</div>
+            <div class="example-box">
+                <div class="example-en" id="example_en">"Never abandon your dreams, no matter how tough the journey gets."</div>
+                <div class="example-zh" id="example_zh">即使旅途再艱難，也絕不放棄你的夢想。</div>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-next" onclick="nextCard()">下一個單字 ➔</button>
+        </div>
     </div>
 
+    <script>
+        const vocabData = [
+            {
+                word: "Abandon", phonetic: "/əˈbæn.dən/", definition: "放棄；拋棄",
+                example_en: "\"Never abandon your dreams, no matter how tough the journey gets.\"",
+                example_zh: "即使旅途再艱難，也絕不放棄你的夢想。"
+            },
+            {
+                word: "Meticulous", phonetic: "/məˈtɪk.jə.ləs/", definition: "嚴謹的；極注意細節的",
+                example_en: "\"She was meticulous about her work, checking every detail.\"",
+                example_zh: "她對工作非常嚴謹，會檢查每一個細節。"
+            },
+            {
+                word: "Resilient", phonetic: "/rɪˈzɪl.jənt/", definition: "有韌性的；能迅速恢復的",
+                example_en: "\"Successful entrepreneurs are remarkably resilient in facing challenges.\"",
+                example_zh: "成功的創業家在面對挑戰時具有極強的韌性。"
+            }
+        ];
+
+        let currentIndex = 0;
+
+        function nextCard() {
+            currentIndex = (currentIndex + 1) % vocabData.length;
+            const item = vocabData[currentIndex];
+            
+            document.getElementById('word').innerText = item.word;
+            document.getElementById('phonetic').innerText = item.phonetic;
+            document.getElementById('definition').innerText = item.definition;
+            document.getElementById('example_en').innerText = item.example_en;
+            document.getElementById('example_zh').innerText = item.example_zh;
+        }
+    </script>
 </body>
 </html>
